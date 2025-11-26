@@ -8,6 +8,7 @@ public partial class ProgramForm : Form
 {
     private Figure? _figure = null;
     private Timer _moveTimer = new();
+    private Size _clipSize = new();
 
     public ProgramForm()
     {
@@ -18,7 +19,7 @@ public partial class ProgramForm : Form
     private void InitializeMoveTimer()
     {
         _moveTimer.Tick += OnMoveFigureTick;
-        _moveTimer.Interval = 25;
+        _moveTimer.Interval = 1;
         _moveTimer.Enabled = true;
     }
 
@@ -36,7 +37,7 @@ public partial class ProgramForm : Form
     {
         if (_figure is not null)
         {
-            _figure.MoveRight();
+            _figure.Move(_clipSize);
 
             // Because we're moved the figure we need to re-paint.
             Invalidate();
@@ -48,6 +49,7 @@ public partial class ProgramForm : Form
         base.OnPaint(e);
 
         using var g = e.Graphics;
+        _clipSize = e.ClipRectangle.Size;
         _figure?.DrawBlack(g);
     }
 

@@ -7,14 +7,16 @@ public class Rhomb : Figure
 
     public Rhomb() : base() { /* Default values are fine */ }
 
+    public override SizeF BoundingBox => new(DiagonalA * 2f, DiagonalB * 2f);
+
     public override void DrawBlack(Graphics g)
     {
-        Draw(g, new SolidBrush(Color.Black));
+        Draw(g, Brushes.Black);
     }
 
     public override void HideDrawingBackGround(Graphics g)
     {
-        Draw(g, new SolidBrush(Color.White));
+        Draw(g, Brushes.White);
     }
 
     private void Draw(Graphics g, Brush brush)

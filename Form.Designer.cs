@@ -21,13 +21,15 @@
             //
             // Form
             //
+            this.KeyPreview = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(455, 533);
-            this.Name = "Form";
-            this.Text = "Form1";
+            this.Name = "dvd_screen_saver";
+            this.Text = "DVD Screen Saver";
             this.BackColor = System.Drawing.Color.FromArgb(37, 37, 38);
             this.ForeColor = System.Drawing.Color.FromArgb(204, 204, 204);
+            this.MinimumSize = new Size(400, 200);
             //
             // button1
             //
