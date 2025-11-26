@@ -10,17 +10,24 @@ public partial class ProgramForm : Form
     private Timer _moveTimer = new();
     private Size _clipSize = new();
 
+    // For fullscreen.
+    private FormWindowState _prevWindowState;
+    private FormBorderStyle _prevBorder;
+    private Rectangle _prevBounds;
+
     public ProgramForm()
     {
         InitializeComponent();
-        InitializeMoveTimer();
+        InitializeEvents();
     }
 
-    private void InitializeMoveTimer()
+    private void InitializeEvents()
     {
         _moveTimer.Tick += OnMoveFigureTick;
         _moveTimer.Interval = 1;
         _moveTimer.Enabled = true;
+
+        KeyDown += OnKeyPressed;
     }
 
     protected override CreateParams CreateParams
@@ -30,6 +37,21 @@ public partial class ProgramForm : Form
             CreateParams createParams = base.CreateParams;
             createParams.ExStyle |= 0x00000020;
             return createParams;
+        }
+    }
+
+    private void OnKeyPressed(object? _, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.F11)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                ExitFullscreen();
+            }
+            else
+            {
+                EnterFullscreen();
+            }
         }
     }
 
@@ -81,5 +103,22 @@ public partial class ProgramForm : Form
             Y = Height / 2
         };
         Invalidate();
+    }
+
+    public void EnterFullscreen()
+    {
+        _prevWindowState = WindowState;
+        _prevBorder = FormBorderStyle;
+        _prevBounds = Bounds;
+
+        FormBorderStyle = FormBorderStyle.None;
+        WindowState = FormWindowState.Maximized;
+    }
+
+    public void ExitFullscreen()
+    {
+        FormBorderStyle = _prevBorder;
+        WindowState = _prevWindowState;
+        Bounds = _prevBounds;
     }
 }
