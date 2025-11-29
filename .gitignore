@@ -6,6 +6,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+*.*~
 
 # visual studio cache files
 # files ending in .cache can be ignored

@@ -10,6 +10,10 @@ public partial class ProgramForm : Form
     private Timer _moveTimer = new();
     private Size _clipSize = new();
 
+    private List<Figure> _figures = new();
+
+    private FoodFactory _foodFactory = new();
+
     // For fullscreen.
     private FormWindowState _prevWindowState;
     private FormBorderStyle _prevBorder;
@@ -19,6 +23,8 @@ public partial class ProgramForm : Form
     {
         InitializeComponent();
         InitializeEvents();
+
+        _foodFactory.CreateFoodAtRandomPlace(Size, _figure);
     }
 
     private void InitializeEvents()
@@ -61,6 +67,15 @@ public partial class ProgramForm : Form
         {
             _figure.Move(_clipSize);
 
+            for (int i = 0; i < _foodFactory.FoodList.Count; ++i)
+            {
+                if (_figure.BoundingBox.IntersectsWith(_foodFactory.FoodList[i].BoundingBox))
+                {
+                    _foodFactory.Eaten(i, _clipSize, _figure);
+                    break;
+                }
+            }
+
             // Because we're moved the figure we need to re-paint.
             Invalidate();
         }
@@ -72,7 +87,17 @@ public partial class ProgramForm : Form
 
         using var g = e.Graphics;
         _clipSize = e.ClipRectangle.Size;
-        _figure?.DrawBlack(g);
+
+        foreach (var food in _foodFactory.FoodList)
+        {
+            food.Draw(g);
+        }
+
+        if (_figure is not null)
+        {
+            _figure.DrawBlack(g);
+            // g.DrawRectangle(Pens.Blue, _figure.BoundingBox);
+        }
     }
 
     private void button1_Click(object _, EventArgs e)

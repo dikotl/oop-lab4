@@ -2,12 +2,15 @@ namespace Figures;
 
 public class Rhomb : Figure
 {
-    public float DiagonalA { get; private set; } = 50;
-    public float DiagonalB { get; private set; } = 50;
+    public const float DefaultDiagonalA = 50f;
+    public const float DefaultDiagonalB = 50f;
+
+    public float DiagonalA { get; private set; } = DefaultDiagonalA;
+    public float DiagonalB { get; private set; } = DefaultDiagonalB;
 
     public Rhomb() : base() { /* Default values are fine */ }
 
-    public override SizeF BoundingBox => new(DiagonalA * 2f, DiagonalB * 2f);
+    public override SizeF Size => new(DiagonalA * 2f, DiagonalB * 2f);
 
     public override void DrawBlack(Graphics g)
     {
@@ -17,6 +20,18 @@ public class Rhomb : Figure
     public override void HideDrawingBackGround(Graphics g)
     {
         Draw(g, Brushes.White);
+    }
+
+    public override void Grow(int factor)
+    {
+        DiagonalA += factor;
+        DiagonalB += factor;
+    }
+
+    public override void ResetSize()
+    {
+        DiagonalA = DefaultDiagonalA;
+        DiagonalB = DefaultDiagonalB;
     }
 
     private void Draw(Graphics g, Brush brush)

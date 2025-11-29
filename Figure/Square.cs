@@ -3,12 +3,15 @@ namespace Figures;
 
 public class Square : Figure
 {
-    public float A { get; private set; } = 100;
-    public float B { get; private set; } = 100;
+    public const float DefaultA = 100f;
+    public const float DefaultB = 100f;
+
+    public float A { get; private set; } = DefaultA;
+    public float B { get; private set; } = DefaultB;
 
     public Square() : base() { /* Default values are fine */ }
 
-    public override SizeF BoundingBox => new(A, B);
+    public override SizeF Size => new(A, B);
 
     public override void DrawBlack(Graphics g)
     {
@@ -18,6 +21,18 @@ public class Square : Figure
     public override void HideDrawingBackGround(Graphics g)
     {
         Draw(g, Brushes.White);
+    }
+
+    public override void Grow(int factor)
+    {
+        A += factor;
+        B += factor;
+    }
+
+    public override void ResetSize()
+    {
+        A = DefaultA;
+        B = DefaultB;
     }
 
     private void Draw(Graphics g, Brush brush)
